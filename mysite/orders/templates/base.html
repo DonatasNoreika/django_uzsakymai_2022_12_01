@@ -9,7 +9,7 @@
 
   <!-- Add additional CSS in static file -->
   {% load static %}
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+<!--  <link rel="stylesheet" href="{% static 'css/styles.css' %}">-->
 </head>
 <body>
 {% load i18n %}
@@ -38,7 +38,7 @@
               </svg>
             {{ user.get_username }}</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'user_orders' %}">Mano užsakymai</a></li>
-            <li class="nav-item"><a class="nav-link" href="">Naujas</a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'order_new' %}">Naujas užsakymas</a></li>
             <li class="nav-item"><a class="nav-link" href="{% url 'logout' %}">Atsijungti</a></li>
           {% else %}
             <li class="nav-item"><a class="nav-link" href="{% url 'login'%}">Prisijungti</a></li>

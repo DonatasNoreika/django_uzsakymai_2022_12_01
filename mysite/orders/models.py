@@ -27,6 +27,9 @@ class MyOrder(models.Model):
             total += line.product.price * line.quantity
         return total
 
+    class Meta:
+        ordering = ['-id']
+
     def __str__(self):
         return f"{self.date} ({self.user}) - {self.status}"
 
