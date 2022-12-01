@@ -20,13 +20,23 @@ class MyOrder(models.Model):
     status = models.ForeignKey("Status", on_delete=models.SET_NULL, null=True, blank=True)
     date = models.DateTimeField("Data", auto_now_add=True)
 
+    def total(self):
+        total = 0
+        lines = self.lines.all()
+        for line in lines:
+            total += line.product.price * line.quantity
+        return total
+
     def __str__(self):
         return f"{self.date} ({self.user}) - {self.status}"
 
 class OrderLine(models.Model):
-    order = models.ForeignKey("MyOrder", on_delete=models.CASCADE)
+    order = models.ForeignKey("MyOrder", on_delete=models.CASCADE, related_name="lines")
     product = models.ForeignKey("Product", on_delete=models.SET_NULL, null=True, blank=True)
     quantity = models.IntegerField("Kiekis")
+
+    def sum(self):
+        return self.product.price * self.quantity
 
     def __str__(self):
         return f"{self.order} ({self.product}) - {self.quantity}"

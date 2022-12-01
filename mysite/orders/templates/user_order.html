@@ -7,4 +7,31 @@
 <p><b>Vartotojas: </b>{{ order.user }}</p>
 <p><b>Data: </b>{{ order.date }}</p>
 <p><b>Statusas: </b>{{ order.status }}</p>
+<h5>Užsakyti produktai:</h5>
+<table class="table table-bordered">
+  <thead>
+    <tr>
+        <th scope="col">Prekė</th>
+        <th scope="col">Kaina</th>
+        <th scope="col">Kiekis</th>
+        <th scope="col">Suma</th>
+    </tr>
+  </thead>
+    <tbody>
+    {% for line in order.lines.all %}
+    <tr>
+       <th scope="row">{{ line.product.name }}</th>
+        <td>{{ line.product.price }}</td>
+        <td>{{ line.quantity }}</td>
+        <td>{{ line.sum }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td colspan="3"><b>TOTAL:</b></td>
+      <th>{{ order.total }}</th>
+    </tr>
+    </tbody>
+</table>
+
+
 {% endblock %}
