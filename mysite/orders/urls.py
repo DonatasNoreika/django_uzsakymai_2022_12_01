@@ -21,6 +21,8 @@ urlpatterns = [
     path("", views.OrderListView.as_view(), name='orders'),
     path("user_orders/", views.UserOrderListView.as_view(), name='user_orders'),
     path("user_orders/<int:pk>", views.UserOrderDetailView.as_view(), name='user_order'),
+    path("user_orders/<int:pk>/update", views.UserOrderUpdateView.as_view(), name='user_order_update'),
+    path("user_orders/<int:pk>/delete", views.UserOrderDeleteView.as_view(), name='user_order_delete'),
     path("user_orders/new", views.OrderCreateView.as_view(), name='order_new'),
     path("user_orders/<int:pk>/neworderline", views.LineCreateView.as_view(), name='neworderline'),
 ]

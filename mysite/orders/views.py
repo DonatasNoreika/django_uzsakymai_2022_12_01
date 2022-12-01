@@ -3,6 +3,7 @@ from django.views import generic
 from .models import MyOrder, OrderLine
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import reverse
+from django.contrib.auth.mixins import UserPassesTestMixin
 from .forms import OrderCreateForm
 
 # Create your views here.
@@ -25,7 +26,34 @@ class UserOrderDetailView(LoginRequiredMixin, generic.DetailView):
     context_object_name = "order"
     template_name = "user_order.html"
 
-class OrderCreateView(LoginRequiredMixin, generic.CreateView):
+class UserOrderUpdateView(LoginRequiredMixin, UserPassesTestMixin, generic.UpdateView):
+    model = MyOrder
+    fields = ['status']
+    success_url = "/user_orders/"
+    template_name = 'order_form.html'
+
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        form.save()
+        return super().form_valid(form)
+
+    def test_func(self):
+        order = self.get_object()
+        return self.request.user == order.user
+
+
+class UserOrderDeleteView(LoginRequiredMixin, UserPassesTestMixin, generic.DeleteView):
+    model = MyOrder
+    success_url = "/user_orders/"
+    template_name = 'order_delete.html'
+    context_object_name = 'order'
+
+    def test_func(self):
+        order = self.get_object()
+        return self.request.user == order.user
+
+
+class OrderCreateView(LoginRequiredMixin, generic.CreateView, ):
     model = MyOrder
     fields = ['status']
     success_url = "/user_orders/"
@@ -36,6 +64,7 @@ class OrderCreateView(LoginRequiredMixin, generic.CreateView):
         form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)
+
 
 class LineCreateView(LoginRequiredMixin, generic.CreateView):
     model = OrderLine
