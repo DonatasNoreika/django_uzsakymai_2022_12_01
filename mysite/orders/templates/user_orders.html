@@ -7,7 +7,9 @@
 {% for order in orders.all %}
 <div>
 <hr>
-{{ order }}
+<a href="{{ order.id }}">
+    {{ order }}
+</a>
 </div>
 {% endfor %}
 {% endblock %}

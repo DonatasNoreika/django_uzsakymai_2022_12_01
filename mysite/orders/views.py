@@ -18,3 +18,7 @@ class UserOrderListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self):
         return MyOrder.objects.filter(user=self.request.user)
 
+class UserOrderDetailView(LoginRequiredMixin, generic.DetailView):
+    model = MyOrder
+    context_object_name = "order"
+    template_name = "user_order.html"
